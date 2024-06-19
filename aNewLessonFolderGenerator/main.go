@@ -12,6 +12,7 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	folderName = scanner.Text()
-	folderName = strings.Replace(folderName, ". ", "_", 1)
+	folderName = strings.Replace(folderName, ". ", "_", -1)
+	folderName = strings.Replace(folderName, " ", "_", -1)
 	_ = cp.Copy("aNewLessonFolderGenerator\\sampleNewTask", folderName)
 }
