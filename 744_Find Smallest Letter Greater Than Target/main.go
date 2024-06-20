@@ -3,36 +3,29 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println(string(nextGreatestLetter([]byte{'c', 'f', 'j'}, 'a')))
+	fmt.Println(string(nextGreatestLetter([]byte{'c', 'f', 'j', 'h'}, 'a')))
 
 }
 func nextGreatestLetter(letters []byte, target byte) byte {
-	l := 0
-	r := len(letters) - 1
-	m := (l + r) / 2
-	for l <= r {
-		if letters[m] > target {
-			r = m - 1
-		} else if letters[m] < target {
-			l = m + 1
+	// Если целевая буква больше или равна последней букве в массиве,
+	// то наименьшей буквой, которая строго больше цели, будет первая буква в массиве
+	if target >= letters[len(letters)-1] {
+		return letters[0]
+	}
+	// Инициализируем две переменные: left и right, которые будут указывать на границы поиска
+	left, right := 0, len(letters)-1
+	// Пока left не больше right, выполняем цикл
+	for left < right {
+		// Вычисляем середину текущего диапазона
+		mid := left + (right-left)/2
+		// Если буквы в середине меньше или равно цели, то ищем в правой половине
+		if letters[mid] <= target {
+			left = mid + 1
 		} else {
-			for letters[m] == target && m < (len(letters)-1) {
-				m++
-			}
-			if letters[m] != target {
-				return letters[m]
-			} else {
-				return letters[0]
-			}
-		}
-		m = (l + r) / 2
-	}
-	if letters[m] > target {
-		return letters[m]
-	} else if m+1 < len(letters) {
-		if letters[m+1] > target {
-			return letters[m+1]
+			// Иначе ищем в левой половине
+			right = mid
 		}
 	}
-	return letters[0]
+	// Возвращаем букву по индексу left, которая строго больше цели
+	return letters[left]
 }
